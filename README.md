@@ -41,7 +41,7 @@ A Loan Default Prediction ML (Machine Learning) model in finance is used to asse
 <img width="649" alt="Screenshot 2024-01-25 091133" src="https://github.com/sanjayravichander/Loan-Default-Prediction-Analysis/assets/86998084/4dbb0275-1efb-4328-848c-3b09f852de54">
 
 
-<img width="592" alt="Screenshot 2024-01-25 091202" src="https://github.com/sanjayravichander/Loan-Default-Prediction-Analysis/assets/86998084/b618f316-ab36-4c5f-b268-0e373f6fd77a">
+<img width="649" alt="Screenshot 2024-01-25 091202" src="https://github.com/sanjayravichander/Loan-Default-Prediction-Analysis/assets/86998084/b618f316-ab36-4c5f-b268-0e373f6fd77a">
 
 
-<img width="578" alt="Screenshot 2024-01-25 091220" src="https://github.com/sanjayravichander/Loan-Default-Prediction-Analysis/assets/86998084/79e49a5e-7162-454b-b578-1b8e7312e3ff">
+<img width="649" alt="Screenshot 2024-01-25 091220" src="https://github.com/sanjayravichander/Loan-Default-Prediction-Analysis/assets/86998084/79e49a5e-7162-454b-b578-1b8e7312e3ff">
