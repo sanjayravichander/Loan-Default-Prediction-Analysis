@@ -1,46 +1,23 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
-
-
 ## Loan Prediction
 import pandas as pd
 df=pd.read_csv("C:\\Users\\DELL\\Downloads\\Final Projects\\loan_default_prediction_project.csv")
-
-
-# In[ ]:
-
 
 ## Data Preprocessing
 # Step 1
 #Data Cleaning:
 #Handle missing data: Decide whether to impute missing values or remove instances with missing values.
 
-
-# In[5]:
-
-
 ##Info on data
 df.info()
-
-
-# In[6]:
-
 
 #Decription of Data
 df.describe()
 
-
-# In[3]:
-
-
 ## Handling missing data
 df.isnull().sum()
-
-
-# In[8]:
-
 
 ## filling the numnerical missing values in mean and categprical missing values in mode.
 df['Gender']=df['Gender'].fillna(df['Gender'].mode()[0])
@@ -48,10 +25,6 @@ df['Employment_Status']=df['Employment_Status'].fillna(df['Employment_Status'].m
 
 ##checking again the columns having any missing values
 df.isnull().sum()*100/len(df)
-
-
-# In[10]:
-
 
 # Check for duplicates in the entire DataFrame
 duplicates = df.duplicated()
@@ -63,10 +36,6 @@ if any(duplicates):
 else:
     print("No duplicate rows.")
 
-
-# In[9]:
-
-
 #Step 2
 #Outlier detection and removal: Identify and handle outliers that can skew the model.
 import matplotlib.pyplot as plt
@@ -74,10 +43,6 @@ plt.boxplot(df[['Age','Income','Credit_Score','Debt_to_Income_Ratio','Existing_L
 plt.show()
 
 ## we got only one outlier and it won't affect the model building that much.So we are not going to remove it
-
-
-# In[17]:
-
 
 ## Data Exploration and Analysis
 #Understand the distribution of the data through visualizations.
@@ -100,9 +65,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[21]:
-
-
 # Categorical Features: Bar Plots
 #It provides insights into the frequency of each category.
 
@@ -118,10 +80,6 @@ for i, col in enumerate(categorical_columns, 1):
     plt.ylabel('Count')
 plt.tight_layout()
 plt.show()
-
-
-# In[26]:
-
 
 ## Heat map
 #This heatmap will help you visually identify the strength and direction of linear relationships between the numerical variables.
@@ -146,30 +104,15 @@ sn.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f", linewidth
 plt.title('Correlation Matrix Heatmap')
 plt.show()
 
-
-# In[29]:
-
-
 ## Scatter Plot
 sn.relplot(x='Loan_Duration_Months',y='Loan_Amount',hue='Loan_Status',data=df)
-
-
-# In[30]:
-
 
 #Multivariate Analysis:To see realtionships b/w all numeric variables
 ##Pair Plot
 sn.pairplot(df)
 
-
-# In[31]:
-
-
 ##Target Variable Analysis:
 df['Loan_Status'].value_counts()
-
-
-# In[32]:
 
 
 ##Encoding Variables:
@@ -181,49 +124,21 @@ label=LabelEncoder()
 df['Location']=label.fit_transform(df['Location'])
 
 
-# In[35]:
-
-
 ## If null values greater than 20% then, we need to take mean,median or mode to fill there
 ## To fill na values
 df['Gender']=df['Gender'].fillna(df['Gender'].mode()[0])
 df['Employment_Status']=df['Employment_Status'].fillna(df['Employment_Status'].mode()[0])
-
-
-# In[38]:
-
-
 df.head(3)
-
-
-# In[39]:
-
 
 df['Gender'].unique()
 
-
-# In[40]:
-
-
 df['Employment_Status'].unique()
-
-
-# In[41]:
-
 
 df['Gender']=df['Gender'].map({'Male':1,'Female':0}).astype('int')
 df['Employment_Status']=df['Employment_Status'].map({'Employed':1,'Unemployed':0}).astype('int')
 df['Loan_Status']=df['Loan_Status'].map({'Non-Default':0,'Default':1}).astype('int')
 
-
-# In[42]:
-
-
 df.head(2)
-
-
-# In[45]:
-
 
 ## Feature Scaling -- It helps in finding the distance b/w the data.
 #If not , the feature with higher value range starts dominating while calculating the distance
@@ -233,16 +148,7 @@ col=['Income','Credit_Score','Existing_Loan_Balance','Loan_Amount','Interest_Rat
 from sklearn.preprocessing import StandardScaler
 st=StandardScaler()
 df[col]=scaled_data=st.fit_transform(df[col])
-
-
-# In[46]:
-
-
 df.head(2)
-
-
-# In[74]:
-
 
 ## Model Building
 
@@ -264,43 +170,19 @@ from imblearn.over_sampling import SMOTE
 # Split the data into training and testing sets
 x_train, x_test, y_train, y_test = train_test_split(data, output, test_size=0.2, random_state=42)
 
-# Apply SMOTE to the training set
+# Apply SMOTE to the training set beacause it is imbalanced
 smote = SMOTE(sampling_strategy='auto', random_state=42)
 X_resampled, y_resampled = smote.fit_resample(x_train, y_train)
 
-
-# In[92]:
-
-
 X_resampled.shape
-
-
-# In[97]:
-
 
 y_resampled.shape
 
-
-# In[94]:
-
-
 x_train.shape
-
-
-# In[95]:
-
 
 x_test.shape
 
-
-# In[75]:
-
-
 output.head(5)
-
-
-# In[170]:
-
 
 ## Defining the models and hyperparameter tunings
 models={
@@ -318,9 +200,6 @@ models={
                                                   'min_samples_split':[2,3,4]})}
 
 
-# In[171]:
-
-
 best_models={}
 ## Iterate over the models and perform Grid Search
 for model_name,(model,param_grid) in models.items():
@@ -332,64 +211,29 @@ for model_name,(model,param_grid) in models.items():
     print(f"Best Accuracy for {model_name}:{grid_search.best_score_}\n")
 
 
-# In[199]:
-
-
 ran=XGBClassifier(learning_rate= 0.02, max_depth= 4, n_estimators= 450)
-
-
-# In[200]:
-
 
 # Apply SMOTE to the testing set
 smote = SMOTE(sampling_strategy='auto', random_state=42)
 X_resampled_test, y_resampled_test = smote.fit_resample(x_test, y_test)
 
-
-# In[111]:
-
-
 X_resampled_test.shape
-
-
-# In[100]:
-
 
 y_resampled_test.shape
 
-
-# In[201]:
-
-
 ran.fit(X_resampled,y_resampled)
 
-
-# In[202]:
-
-
 y_pred=ran.predict(X_resampled_test)
-
-
-# In[203]:
-
 
 accuracy = accuracy_score(y_resampled_test, y_pred)
 roc_auc = roc_auc_score(y_resampled_test, y_pred)
 f1 = f1_score(y_resampled_test, y_pred)
-
-
-# In[205]:
-
-
 print(f"Accuracy: {accuracy}")
 print(f"ROC AUC Score: {roc_auc}")
 print(f"F1 Score: {f1}")
 print(classification_report(y_resampled_test, y_pred))
 
-
-# In[208]:
-
-
+## Loading the Model and saving it in Pickle file
 import pickle
 # now you can save it to a file
 file = 'C:\\Users\\DELL\\Downloads\\Model for loan prediction\\ML_Model.pkl'
@@ -399,14 +243,12 @@ with open(file, 'wb') as f:
 with open(file, 'rb') as f:
     k = pickle.load(f)
 
-
-# In[209]:
-
-
+## Streamlit Deployment
 from PIL import Image
 import streamlit as st
 model = pickle.load(open('C:\\Users\\DELL\\Downloads\\Model for loan prediction\\ML_Model.pkl', 'rb'))
 
+## Adding Background Image
 def run():
     import base64
     def add_bg_from_local(image_file):
@@ -424,6 +266,8 @@ def run():
         unsafe_allow_html=True
         )
     add_bg_from_local('C:/Users/DELL/Downloads/Loan_img.jpg') 
+
+    ## Adding small Logo like Image
     img=Image.open('C:\\Users\\DELL\\Downloads\\Logo.png')
     img=img.resize((150,150))
     st.image(img,use_column_width=False)
@@ -493,76 +337,3 @@ def run():
             st.success('**__Congratulations!! you will get the loan from Bank__**')
             
 run()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
