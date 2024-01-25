@@ -33,4 +33,4 @@ A Loan Default Prediction ML (Machine Learning) model in finance is used to asse
 --To run app, write following command in CMD.
 
 ```bash
-  streamlit run Sentiment_Analysis_app.py
+  streamlit run  Loan_Prediction_app_streamlit_app.py
